@@ -1,7 +1,10 @@
+/* eslint-disable react/prop-types */
 import PropTypes from "prop-types";
+import { FaBookmark } from "react-icons/fa";
 
-export default function Blog({ blog }) {
+export default function Blog({ blog, handleAddToBookmark, handleMarkAsRead }) {
   const {
+    id,
     title,
     cover,
     author,
@@ -11,9 +14,13 @@ export default function Blog({ blog }) {
     hashtags,
   } = blog;
   return (
-    <div>
-      <img src={cover} alt={`Cover picture of the title`} />
-      <div className="flex justify-between ">
+    <div className="mb-20">
+      <img
+        className="w-full mb-8"
+        src={cover}
+        alt={`Cover picture of the title`}
+      />
+      <div className="flex justify-between mb-4">
         <div className="flex gap-3">
           <img className="w-14" src={author_img} alt="" />
           <div>
@@ -23,6 +30,12 @@ export default function Blog({ blog }) {
         </div>
         <div>
           <span>{reading_time} min read</span>
+          <button
+            onClick={() => handleAddToBookmark(blog)}
+            className="ml-2 text-red-400 text-2xl"
+          >
+            <FaBookmark />
+          </button>
         </div>
       </div>
       <h2 className="text-4xl">{title}</h2>
@@ -31,10 +44,17 @@ export default function Blog({ blog }) {
           <span key={idx}>#{hash}</span>
         ))}
       </p>
+      <button
+        onClick={() => handleMarkAsRead(reading_time, id)}
+        className="text-purple-600 font-bold"
+      >
+        Mark as read
+      </button>
     </div>
   );
 }
 
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
+  handleAddToBookmark: PropTypes.func,
 };
